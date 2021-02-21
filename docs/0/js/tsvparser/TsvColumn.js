@@ -1,10 +1,11 @@
-class TsvString {
+class TsvColumn {
+    static fromTsv(lines) {
+        if (1 === lines.length)
+    }
     static toArray(source) {
         const lines = source.split('\n');
         const areas = this.#splitAreas(lines);
         console.log(areas);
-        const column = Column.fromTsv(areas);
-        console.log(column);
     }
     static #splitAreas(lines) {
         const areas = [];
