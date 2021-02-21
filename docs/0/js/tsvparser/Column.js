@@ -62,12 +62,13 @@ class Column {
         // undefined
     }
     static #inferType(value) {
-        console.log(value, Number.isFinite(value), value.match(this.#regexpDate), this.#regexpDate);
+        console.log(value, parseInt(value), Number.isFinite(value), value.match(this.#regexpDate), this.#regexpDate);
         if (undefined === value) { return undefined; }
         else if ('true' === value || 'false' === value) { return 'boolean'; }
         else if (value.match(this.#regexpDate) || value.match(this.#regexpTime) || value.match(this.#regexpDateTime) ) { return 'date'; }
 //        else if (Number.isFinite(parseInt(value))) { return 'number'; }
-        else if (parseInt(value) || parseFloat(value)) { return 'number'; }
+//        else if (parseInt(value) || parseFloat(value)) { return 'number'; }
+        else if (!isNaN(value)) { return 'number'; }
         else { return 'string'; }
     }
 }

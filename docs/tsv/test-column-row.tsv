@@ -5,8 +5,9 @@ age	int	年齢	true
 secret	str	秘密キー	true
 birth	date	誕生日	true
 isAlive	bool	生存	true
+rate	num	比率	true
 
-id	name	age	secret	birth	isAlive
-0	Yamada	20	aaa	2000-01-01	true
-1	Suzuki	30	bbb	2000-01-02	false
+id	name	age	secret	birth	isAlive	rate
+0	Yamada	20	aaa	2000-01-01	true	0.2
+1	Suzuki	30	bbb	2000-01-02	false	3.1
 
