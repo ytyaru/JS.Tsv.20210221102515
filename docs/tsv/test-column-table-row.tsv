@@ -1,0 +1,18 @@
+key	type	name	nullable
+id	int	ID	false
+name	str	名前	false
+age	int	年齢	true
+secret	str	秘密キー	true
+
+blank	undefined|null|empty
+tz	+0900
+show	id, name
+sort	id+, name-
+pagination	50
+autopager	50
+aggregate	age:{sum, average}, ...:{}, ...
+
+id	name	age	secret	birth
+0	Yamada	20	aaa	2000-01-01
+1	Suzuki	30	bbb	2000-01-02
+

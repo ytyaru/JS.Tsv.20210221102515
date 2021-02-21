@@ -1,0 +1,10 @@
+key	type	name	nullable
+id	int	ID	false
+name	str	名前	false
+age	int	年齢	true
+secret	str	秘密キー	true
+
+id	name	age	secret	birth
+0	Yamada	20	aaa	2000-01-01
+1	Suzuki	30	bbb	2000-01-02
+
