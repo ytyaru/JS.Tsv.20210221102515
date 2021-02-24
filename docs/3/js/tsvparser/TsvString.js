@@ -8,6 +8,7 @@ export default class TsvString {
         const column = Column.fromTsv(areas);
         console.log(column);
         const row = Row.fromTsv(column, areas[areas.length - 1])
+        console.log(row);
     }
     static #splitAreas(lines) {
         const areas = [];

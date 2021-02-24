@@ -1,13 +1,17 @@
 import TypeFormat from '../typeformat/TypeFormat.js';
 export default class Row {
     static fromTsv(column, tsv) {
+        const rows = [];
         console.log(column, tsv)
         for (const line of tsv) {
+            const fields = [];
             for (const [c, field] of line.split('\t').entries()) {
-                column[c]
-                TypeFormat.toType(value)
+                fields.push(TypeFormat.toType(field));
             }
+            rows.push(fields);
         }
+//        console.log(rows);
+        return rows;
     }
     static #getTypeId(typeName) {
         if ('undefined' === typeName) { return 'undefined'; }
