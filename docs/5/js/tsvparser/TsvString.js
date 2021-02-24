@@ -8,7 +8,9 @@ export default class TsvString {
         const areas = this.#splitAreas(lines);
         result.columns = Column.fromTsv(areas);
         result.rows = this.#getRows(type, areas, result.columns);
-        result.state = TableState.fromTsv(areas);
+//        result.state = TableState.fromTsv(areas);
+        result.state = new TableState();
+        result.state.fromTsv(areas);
         return result;
     }
     static #getRows(type, areas, columns) {
