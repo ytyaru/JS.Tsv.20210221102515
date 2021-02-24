@@ -1,5 +1,5 @@
-id	name	age	secret	birth	isAlive	rate
+id	name	age	secret	birth	isAlive	rate	site
 
-0	Yamada	20	aaa	2000-01-01	true	0.2
-1	Suzuki	30	bbb	2000-01-02	false	3.1
+0	Yamada	20	aaa	2000-01-01	true	0.2	https://abc.com/
+1	Suzuki	30	bbb	2000-01-02	false	3.1	https://def.com/
 
