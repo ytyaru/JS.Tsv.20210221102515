@@ -10,11 +10,11 @@ export default class TableState {
     get Blank() { return this.#blank; }
     set Blank(value) { this.#blank = value; }
     get Sort() { return this.#sort; }
-    set Sort(value) { this.#sort = value; }
+    set Sort(value) { this.#sort = #parseSort(value); }
     get TimeZone() { return DateFormat.getTimeZone(); }
     set TimeZone(value) { DateFormat.setTimeZone(value); }
     get Show() { return this.#show; }
-    set Show(value) { this.#show = value; }
+    set Show(value) { this.#show = #parseShow(value); }
     get Pagination() { return this.#pagination; }
     set Pagination(value) { this.#pagination = value; }
     get AutoPager() { return this.#autoPager; }
@@ -38,5 +38,28 @@ export default class TableState {
             else { throw new Error(`未定義の状態名です。: ${key}`); }
         }
         return state;
+    }
+    static #parseShow(value) { return this.#parseArrayStrings(value); }
+    static #parseSort(value) {
+        return this.#parseArrayStrings(value).map(item=>this.#parseSortStringItem(item));
+        /*
+        const result [];
+        for (const item of this.#parseArrayStrings(value)) {
+            result.push(this.#parseSortStringItem(item));
+        }
+        return result;
+        */
+    }
+    static #parseSortStringItem(item) {
+        const sortState = {}
+        if (item.endsWith('-')) { return {key: item.slice(0, -1), order:'-'; } }
+        else if (item.endsWith('+')) { return {key: item.slice(0, -1), order:'+' } }
+        else { return {key: item, order:null } }
+    }
+    static #parseArrayStrings(value) { // value:string カンマかスペースで区切られている。
+        if (0 < items) { return items; }
+        items = value.split(',');
+        if (0 < items) { return items.map(item=>item.trim()); }
+        return value;
     }
 }
