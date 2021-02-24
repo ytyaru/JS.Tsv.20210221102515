@@ -5,5 +5,6 @@ window.addEventListener('load', async(event) => {
         console.log(name);
         console.log(TsvString.toArray(await FileLoader.load(`../tsv/${name}`)));
         console.log(TsvString.toObject(await FileLoader.load(`../tsv/${name}`)));
+        console.log(TsvString.toMap(await FileLoader.load(`../tsv/${name}`)));
     }
 });

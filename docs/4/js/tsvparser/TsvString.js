@@ -26,6 +26,21 @@ export default class TsvString {
         }
         return result;
     }
+    static toMap(source) {
+        const result = [];
+        const lines = source.split('\n');
+        const areas = this.#splitAreas(lines);
+        const column = Column.fromTsv(areas);
+        for (const row of Row.fromTsv(areas)) {
+            const object = new Map();
+            for (const [c, field] of row.entries()) {
+                const key = (column) ? column[c].key : `column${c}`
+                object.set(key, field);
+            }
+            result.push(object);
+        }
+        return result;
+    }
     static #splitAreas(lines) {
         const areas = [];
         let area = [];
