@@ -23,7 +23,6 @@ export default class TableState {
     set Aggregate(value) { this.#aggregate = value; }
     fromTsv(source) {
         if (source.length < 3) { return undefined; }
-//        const state = new TableState();
         for (const line of source[1]) {
             const fields = line.split('\t');
             const key = fields[0];
@@ -37,19 +36,16 @@ export default class TableState {
             else if ('aggregate' === key) { this.Aggregate = value; }
             else { throw new Error(`未定義の状態名です。: ${key}`); }
         }
-//        return state;
     }
     #parseShow(value) { return this.#parseArrayStrings(value); }
     #parseSort(value) {
-        const items = this.#parseArrayStrings(value);
-        console.log(items);
-        return items.map(item=>this.#parseSortStringItem(item));
+        return this.#parseArrayStrings(value).map(item=>this.#parseSortStringItem(item));
     }
     #parseSortStringItem(item) {
         const sortState = {}
-        if (item.endsWith('-')) { return {key: item.slice(0, -1), orderBy: '-' } }
-        else if (item.endsWith('+')) { return {key: item.slice(0, -1), orderBy:'+' } }
-        else { return {key: item, orderBy:null } }
+        if (item.endsWith('-')) { return {key: item.slice(0, -1), orderBy: -1 } }
+        else if (item.endsWith('+')) { return {key: item.slice(0, -1), orderBy: 1 } }
+        else { return {key: item, orderBy: 0} }
     }
     #parseArrayStrings(value) { // value:string カンマかスペースで区切られている。
         let items = value.split(' ');

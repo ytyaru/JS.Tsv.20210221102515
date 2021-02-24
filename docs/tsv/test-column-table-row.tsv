@@ -11,7 +11,7 @@ site	url	true
 blank	undefined|null|empty
 tz	+0900
 show	id, name
-sort	id+, name-
+sort	id+, name-, rate
 pagination	50
 autopager	50
 aggregate	age:{sum, average}, ...:{}, ...
