@@ -15,8 +15,8 @@ export default class TsvString {
     }
     static #getRows(type, areas, columns) {
         if ('array' === type.toLowerCase()) { return this.#getArrayRows(areas, columns); }
-        else if ('object' === type.toLowerCase()) { return this.#getArrayRows(areas, columns); }
-        else if ('map' === type.toLowerCase()) { return this.#getArrayRows(areas, columns); }
+        else if ('object' === type.toLowerCase()) { return this.#getObjectRows(areas, columns); }
+        else if ('map' === type.toLowerCase()) { return this.#getMapRows(areas, columns); }
         else { throw new Error('行データの型はarray,object,mapのいずれかのみ有効です。'); }
     }
     static #getArrayRows(areas, columns) { return Row.fromTsv(areas); }
