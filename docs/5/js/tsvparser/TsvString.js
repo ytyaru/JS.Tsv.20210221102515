@@ -1,6 +1,46 @@
 import Column from './Column.js';
 import Row from './Row.js';
 export default class TsvString {
+    static parse(source, type='array') {
+        const result = {}
+        const lines = source.split('\n');
+        const areas = this.#splitAreas(lines);
+        result.columns = Column.fromTsv(areas);
+        result.rows = this.#getRows(type, areas, result.columns);
+        result.state = TableState.fromTsv(areas);
+        return result;
+    }
+    static #getRows(type, areas, columns) {
+        if ('array' === type.toLowerCase()) { return this.#getArrayRows(areas, columns); }
+        else if ('object' === type.toLowerCase()) { return this.#getArrayRows(areas, columns); }
+        else if ('map' === type.toLowerCase()) { return this.#getArrayRows(areas, columns); }
+        else { throw new Error('行データの型はarray,object,mapのいずれかのみ有効です。'); }
+    }
+    static #getArrayRows(areas, columns) { return Row.fromTsv(areas); }
+    static #getObjectRows(areas, columns) {
+        const result = [];
+        for (const row of Row.fromTsv(areas)) {
+            const object = {};
+            for (const [c, field] of row.entries()) {
+                const key = (columns) ? columns[c].key : `column${c}`
+                object[key] = field;
+            }
+            result.push(object);
+        }
+        return result;
+    }
+    static #getMapRows(areas, columns) {
+        const result = [];
+        for (const row of Row.fromTsv(areas)) {
+            const object = new Map();
+            for (const [c, field] of row.entries()) {
+                const key = (columns) ? columns[c].key : `column${c}`
+                object.set(key, field);
+            }
+            result.push(object);
+        }
+        return result;
+    }
     static toArray(source) {
         const lines = source.split('\n');
         const areas = this.#splitAreas(lines);
