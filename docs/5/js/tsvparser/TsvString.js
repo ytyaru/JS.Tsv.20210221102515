@@ -1,5 +1,6 @@
 import Column from './Column.js';
 import Row from './Row.js';
+import TableState from './TableState.js';
 export default class TsvString {
     static parse(source, type='array') {
         const result = {}

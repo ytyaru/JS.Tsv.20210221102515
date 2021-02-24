@@ -1,6 +1,6 @@
+import DateFormat from '../typeformat/DateFormat.js';
 export default class TableState {
     #blank
-    #sort
     #tz
     #show
     #sort
@@ -11,8 +11,8 @@ export default class TableState {
     set Blank(value) { this.#blank = value; }
     get Sort() { return this.#sort; }
     set Sort(value) { this.#sort = value; }
-    get TimeZone() { return this.#tz; }
-    set TimeZone(value) { this.#tz = value; }
+    get TimeZone() { return DateFormat.getTimeZone(); }
+    set TimeZone(value) { DateFormat.setTimeZone(value); }
     get Show() { return this.#show; }
     set Show(value) { this.#show = value; }
     get Pagination() { return this.#pagination; }
@@ -22,9 +22,21 @@ export default class TableState {
     get Aggregate() { return this.#aggregate; }
     set Aggregate(value) { this.#aggregate = value; }
     static fromTsv(source) {
-        
-    }
-    constructor() {
-
+        if (source.length < 3) { return undefined; }
+        const state = new TableState();
+        for (const line of source[1]) {
+            const fields = line.split('\t');
+            const key = fields[0];
+            const value = fields[1];
+            if ('blank' === key) { state.Blank = value; }
+            else if ('sort' === key) { state.Sort = value; }
+            else if ('tz' === key || 'timezone' === key.toLowerCase()) { state.TimeZone = value; }
+            else if ('show' === key) { state.Show = value; }
+            else if ('pagination' === key) { state.Pagination = value; }
+            else if ('autopager' === key.toLowerCase()) { state.AutoPager = value; }
+            else if ('aggregate' === key) { state.Aggregate = value; }
+            else { throw new Error(`未定義の状態名です。: ${key}`); }
+        }
+        return state;
     }
 }
