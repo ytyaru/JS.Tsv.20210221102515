@@ -2,8 +2,11 @@ import DateFormat from '../typeformat/DateFormat.js';
 import TableState from './TableState.js';
 export default class DataTable { // TableStateに沿ってTsvTableを変更して新たなテーブルデータを返す。
     static get(source) { // source:{columns:, rows:, state:}
+        console.log(source)
         const result = {}
         result.columns = this.#createColumns(source);
+        console.log(result.columns)
+        result.rows = this.#createRows(source, result.columns)
         return result;
     }
     static #createColumns(source) {
@@ -26,12 +29,21 @@ export default class DataTable { // TableStateに沿ってTsvTableを変更し�
         return source.columns;
     }
     static #createRows(source, columns) {
+        if (undefined === columns) { return source.rows; }
+        console.log(columns)
         const rows = []
         for (const row of source.rows) {
+            const newRow = []
             for (const [key, value] of columns.entries()) {
-//                column.
-                console.log();
+                console.log(key, value, row)
+//                console.log(key, value, row, source.columns.filter((i,col)=>col.key===key)[0])
+                if (row.key !== key) { continue; }
+//                newRow.push(value)
+                newRow.push(row[key])
             }
+            rows.push(newRow);
         }
+        console.log(rows);
+        return rows;
     }
 }
