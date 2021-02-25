@@ -11,25 +11,9 @@ sort: id+, name-
 pagination: 50
 autopager: 50
 aggregate: age:{sum, average}, ...:{}, ...
-filter: id: 10, name: 'yamada', birth: 2000-01-01
-filter: id: >10, name: /^yamada$/, birth: >2000-01-01
-filter: id: >10 && <100, name: /^yamada$/, birth: >2000-01-01 && 2020-12-31
-filter: id: 10..100, name: yamada, suzuki, ' a ', birth: 2000-01-01..2020-12-31
-filter: id: 10.., name: /^yamada$/, birth: 2000-01-01..
-filter: id: ..100, name: /^yamada$/, birth: ..2020-12-31
 filter:
 	id	10..100
-	name	yamada, suzuki, ' a '
-	name	'yamada', 'suzuki', ' a '
-	name	['yamada', 'suzuki', ' a ']
-	name	/^(yamada|suzuki| a )$/
-	birth	2000-01-01..2020-12-31
-filter
-	id	10..100
-	name
-		yamada
-		suzuki
-		' a '
+	name	["yamada", "suzuki", " a "]
 	birth	2000-01-01..2020-12-31
 
 id  name    age secret  birth

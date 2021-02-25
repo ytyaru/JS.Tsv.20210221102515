@@ -1,0 +1,38 @@
+key     type    name        nullable
+id      int     ID
+name    str     名前
+age     int     年齢
+secret  str     秘密キー
+
+blank: undefined|null|empty
+tz: +0900
+show: id, name
+sort: id+, name-
+pagination: 50
+autopager: 50
+aggregate: age:{sum, average}, ...:{}, ...
+filter: id: 10, name: 'yamada', birth: 2000-01-01
+filter: id: >10, name: /^yamada$/, birth: >2000-01-01
+filter: id: >10 && <100, name: /^yamada$/, birth: >2000-01-01 && 2020-12-31
+filter: id: 10..100, name: yamada, suzuki, ' a ', birth: 2000-01-01..2020-12-31
+filter: id: 10.., name: /^yamada$/, birth: 2000-01-01..
+filter: id: ..100, name: /^yamada$/, birth: ..2020-12-31
+filter:
+	id	10..100
+	name	yamada, suzuki, ' a '
+	name	'yamada', 'suzuki', ' a '
+	name	['yamada', 'suzuki', ' a ']
+	name	/^(yamada|suzuki| a )$/
+	birth	2000-01-01..2020-12-31
+filter
+	id	10..100
+	name
+		yamada
+		suzuki
+		' a '
+	birth	2000-01-01..2020-12-31
+
+id  name    age secret  birth
+0   Yamada  20  aaa     2000-01-01
+1   Suzuki  30  bbb     2000-01-02
+

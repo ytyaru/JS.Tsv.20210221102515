@@ -10,7 +10,7 @@ export default class TsvString {
         result.rows = this.#getRows(type, areas, result.columns);
 //        result.state = TableState.fromTsv(areas);
         result.state = new TableState();
-        result.state.fromTsv(areas);
+        result.state.fromTsv(areas, result.columns);
         return result;
     }
     static #getRows(type, areas, columns) {

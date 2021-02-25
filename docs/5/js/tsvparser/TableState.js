@@ -13,8 +13,8 @@ export default class TableState {
     set Blank(value) { this.#blank = value; }
     get Sort() { return this.#sort; }
     set Sort(value) { this.#sort = this.#parseSort(value); }
-    get Fileter() { return this.#fileter; }
-    set Fileter(value) { this.#fileter = this.#parseSort(value); }
+//    get Filter() { return this.#filter; }
+//    set Filter(value) { this.#filter = this.#parseFilter(value); }
     get TimeZone() { return DateFormat.getTimeZone(); }
     set TimeZone(value) { DateFormat.setTimeZone(value); }
     get Show() { return this.#show; }
@@ -25,12 +25,12 @@ export default class TableState {
     set AutoPager(value) { this.#autoPager = value; }
     get Aggregate() { return this.#aggregate; }
     set Aggregate(value) { this.#aggregate = value; }
-    fromTsv(source) {
+    fromTsv(source, columns) {
         if (source.length < 3) { return undefined; }
         for (const [i, line] of source[1].entries()) {
             const fields = line.split('\t');
             if (fields.length < 2) {
-                if ('filter' === fields[0]) { this.#parseFilterMultiLine(source[1], i); }
+                if ('filter' === fields[0]) { this.#parseFilterMultiLine(source[1], i, columns); }
                 continue;
             }
             const key = fields[0];
@@ -42,7 +42,7 @@ export default class TableState {
             else if ('pagination' === key) { this.Pagination = parseInt(value); }
             else if ('autopager' === key.toLowerCase()) { this.AutoPager = parseInt(value); }
             else if ('aggregate' === key) { this.Aggregate = value; }
-            else { throw new Error(`未定義の状態名です。: ${key}`); }
+//            else { throw new Error(`未定義の状態名です。: ${key}`); }
         }
     }
     #parseShow(value) { return this.#parseArrayStrings(value); }
@@ -62,64 +62,67 @@ export default class TableState {
         if (0 < items.length) { return items.map(item=>item.trim()); }
         return value;
     }
-    #parseFilterMultiLine(source, i) {
+    /*
+    #parseFilter(source, i) {
+
+    }
+    */
+    #parseFilterMultiLine(source, i, columns) {
+        console.log('parseFilterMultiLine');
         const result = {};
-        const lines = source.slice(i)
+        const lines = source.slice(i+1)
+        console.log(lines);
         for (const line of lines) {
-            if (!line.startWith('\t')) { break; }
-            const fields = line.split('\t');
+            if (!line.startsWith('\t')) { break; }
+            const fields = line.trim().split('\t');
+            console.log(fields );
             if (fields.length < 2) { continue; }
             const key = fields[0];
             const value = fields[1];
-            result[key] = this.#parseFilterValue(value);
+            result[key] = this.#parseFilterValue(key, value, columns);
         }
+        this.#filter = result;
         return result;
     }
-    #parseFilterValue(value) {
+    #parseFilterValue(key, value, columns) {
+        const column = columns.filter(col=>col.key === key)[0];
+        console.log(column)
         const result = {}
-        const delimiterIndex = value.indexOf('..')
+        const DELIMITER = '..'
+        const delimiterIndex = value.indexOf(DELIMITER)
         if (0 <= delimiterIndex) {
-            if ('integer' === columns[key].type || 'float' === columns[key].type || 'bigint' === columns[key].type || 'number' === columns[key].type || 'date' === columns[key].type) {
+            if ('int' === column.type || 'integer' === column.type || 'float' === column.type || 'bigint' === column.type || 'num' === column.type  || 'number' === column.type || 'date' === column.type) {
                 const first = value.slice(0, delimiterIndex);
-                const second = value.slice(delimiterIndex);
-                if (('integer' === TypeFormat.typeof(first) && 'integer' === TypeFromat.typeof(second))
-                 || ('float' === TypeFormat.typeof(first) && 'float' === TypeFromat.typeof(second))
-                 || ('number' === TypeFormat.typeof(first) && 'number' === TypeFromat.typeof(second))
-                 || ('date' === TypeFormat.typeof(first) && 'date' === TypeFromat.typeof(second))
+                const second = value.slice(delimiterIndex+DELIMITER.length);
+                console.log(first, second)
+                if (('integer' === TypeFormat.typeof(first) && 'integer' === TypeFormat.typeof(second))
+                 || ('float' === TypeFormat.typeof(first) && 'float' === TypeFormat.typeof(second))
+                 || ('number' === TypeFormat.typeof(first) && 'number' === TypeFormat.typeof(second))
+                 || ('date' === TypeFormat.typeof(first) && 'date' === TypeFormat.typeof(second))
                 ) {
     //                result.min = TypeFormat.toType(first);
     //                result.max = TypeFormat.toType(second);
+                    console.log((0 < delimiterIndex), !value.endsWith('..'))
                     if (0 < delimiterIndex) {
                         result.min = TypeFormat.toType(first);
+                        console.log(result)
                     }
                     if (!value.endsWith('..')) {
                         result.max = TypeFormat.toType(second);
+                        console.log(result)
                     }
-                }
+                } else { result.in = [value]; }
             } else {
                 result.in = [value]
             }
-            /*
-            if ('integer' === columns[key].type || 'float' === columns[key].type || 'bigint' === columns[key].type || 'number' === columns[key].type || 'date' === columns[key].type) {
-                result.min = TypeFormat.toType(value);
-                result.max = TypeFormat.toType(value);
-            } else if () {
-                result.min = 
-                result.max = 
+        } else {
+            if (value.startsWith('[') && value.endsWith(']')) {
+                console.log(`{}`);
+                result.in = JSON.parse(`{"key": ${value}}`).key;
+//                result.in = JSON.parse(value);
             }
-            */
+            else { result.in = [value]; }
         }
-        else if (0 == delimiterIndex) {
-        }
-
-        else {
-
-        }
-        if (value.startsWith('..')) {
-
-        }
-        else if (value.endsWith('..')) {
-
-        }
+        return result
     }
 }

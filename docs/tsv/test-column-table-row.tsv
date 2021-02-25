@@ -15,6 +15,10 @@ sort	id+, name-, rate
 pagination	50
 autopager	50
 aggregate	age:{sum, average}, ...:{}, ...
+filter
+	id	10..100
+	name	["yamada", "suzuki", " a "]
+	birth	2000-01-01..2020-12-31
 
 id	name	age	secret	birth	isAlive	rate	site
 0	Yamada	20	aaa	2000-01-01	true	0.2	https://abc.com/
