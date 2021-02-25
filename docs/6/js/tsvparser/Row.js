@@ -1,7 +1,8 @@
 import TypeFormat from '../typeformat/TypeFormat.js';
 export default class Row {
     static fromTsv(source) {
-        const tsv = source[source.length - 1];
+//        const tsv = source[source.length - 1];
+        const tsv = (2 < source.length) ? source[source.length - 1].slice(1) : source[source.length - 1] ;
         const rows = [];
         for (const line of tsv) {
             const fields = [];

@@ -28,7 +28,10 @@ export default class DataTable { // TableStateに沿ってTsvTableを変更し�
     static #createRows(source, columns) {
         const rows = []
         for (const row of source.rows) {
-            
+            for (const [key, value] of columns.entries()) {
+//                column.
+                console.log();
+            }
         }
     }
 }
