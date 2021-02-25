@@ -1,6 +1,9 @@
 import DateFormat from '../typeformat/DateFormat.js';
 import TypeFormat from '../typeformat/TypeFormat.js';
 export default class TableState {
+//    #formatRegExp = new RegExp(`^/.+/[gimsuy]*$`)
+    #formatRegExp = new RegExp(`^/(.+)/([gimsuy]*)$`)
+//    #formatRegExp = new RegExp(`^/(.+)/([gimsuy]+)?$`)
     #blank
     #tz
     #show
@@ -104,33 +107,22 @@ export default class TableState {
                     result.max = TypeFormat.toType(second);
                     console.log(result)
                 }
-                /*
-                if (('integer' === TypeFormat.typeof(first) && 'integer' === TypeFormat.typeof(second))
-                 || ('float' === TypeFormat.typeof(first) && 'float' === TypeFormat.typeof(second))
-                 || ('number' === TypeFormat.typeof(first) && 'number' === TypeFormat.typeof(second))
-                 || ('date' === TypeFormat.typeof(first) && 'date' === TypeFormat.typeof(second))
-                ) {
-    //                result.min = TypeFormat.toType(first);
-    //                result.max = TypeFormat.toType(second);
-                    console.log((0 < delimiterIndex), !value.endsWith('..'))
-                    if (0 < delimiterIndex) {
-                        result.min = TypeFormat.toType(first);
-                        console.log(result)
-                    }
-                    if (!value.endsWith('..')) {
-                        result.max = TypeFormat.toType(second);
-                        console.log(result)
-                    }
-                } else { result.in = [value]; }
-                */
             } else {
-                result.in = [value]
+                if (('str' === column.type || 'string' === column.type) &&  value.match(this.#formatRegExp)) {
+                    result.regexp = new RegExp(value);
+                } else {
+                    result.in = [value];
+                }
             }
         } else {
             if (value.startsWith('[') && value.endsWith(']')) {
-                console.log(`{}`);
-                result.in = JSON.parse(`{"key": ${value}}`).key;
-//                result.in = JSON.parse(value);
+                result.in = JSON.parse(value);
+            } else if (('str' === column.type || 'string' === column.type) && value.match(this.#formatRegExp)) {
+                value.replace(this.#formatRegExp, (match, p1, p2)=>{
+                    console.log(match, p1, p2);
+                    result.regexp = new RegExp(p1, p2);
+                })
+//                result.regexp = new RegExp(value);
             }
             else { result.in = [value]; }
         }
