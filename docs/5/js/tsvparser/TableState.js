@@ -108,21 +108,22 @@ export default class TableState {
                     console.log(result)
                 }
             } else {
-                if (('str' === column.type || 'string' === column.type) &&  value.match(this.#formatRegExp)) {
-                    result.regexp = new RegExp(value);
-                } else {
-                    result.in = [value];
+                if (value.startsWith('[') && value.endsWith(']')) {
+                    result.in = JSON.parse(value);
+                } else if (('str' === column.type || 'string' === column.type) && value.match(this.#formatRegExp)) {
+                    value.replace(this.#formatRegExp, (match, p1, p2)=>{
+                        result.regexp = new RegExp(p1, p2);
+                    })
                 }
+                else { result.in = [value]; }
             }
         } else {
             if (value.startsWith('[') && value.endsWith(']')) {
                 result.in = JSON.parse(value);
             } else if (('str' === column.type || 'string' === column.type) && value.match(this.#formatRegExp)) {
                 value.replace(this.#formatRegExp, (match, p1, p2)=>{
-                    console.log(match, p1, p2);
                     result.regexp = new RegExp(p1, p2);
                 })
-//                result.regexp = new RegExp(value);
             }
             else { result.in = [value]; }
         }
