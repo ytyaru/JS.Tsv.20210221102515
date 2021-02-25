@@ -4,6 +4,7 @@ export default class TableState {
     #tz
     #show
     #sort
+    #filter
     #pagination
     #autoPager
     #aggregate
@@ -11,6 +12,8 @@ export default class TableState {
     set Blank(value) { this.#blank = value; }
     get Sort() { return this.#sort; }
     set Sort(value) { this.#sort = this.#parseSort(value); }
+    get Fileter() { return this.#fileter; }
+    set Fileter(value) { this.#fileter = this.#parseSort(value); }
     get TimeZone() { return DateFormat.getTimeZone(); }
     set TimeZone(value) { DateFormat.setTimeZone(value); }
     get Show() { return this.#show; }
@@ -25,14 +28,15 @@ export default class TableState {
         if (source.length < 3) { return undefined; }
         for (const line of source[1]) {
             const fields = line.split('\t');
+            if (fields.length < 2) { continue; }
             const key = fields[0];
             const value = fields[1];
             if ('blank' === key) { this.Blank = value; }
             else if ('sort' === key) { this.Sort = value; }
             else if ('tz' === key || 'timezone' === key.toLowerCase()) { this.TimeZone = value; }
             else if ('show' === key) { this.Show = value; }
-            else if ('pagination' === key) { this.Pagination = value; }
-            else if ('autopager' === key.toLowerCase()) { this.AutoPager = value; }
+            else if ('pagination' === key) { this.Pagination = parseInt(value); }
+            else if ('autopager' === key.toLowerCase()) { this.AutoPager = parseInt(value); }
             else if ('aggregate' === key) { this.Aggregate = value; }
             else { throw new Error(`未定義の状態名です。: ${key}`); }
         }
@@ -53,5 +57,8 @@ export default class TableState {
         items = value.split(',');
         if (0 < items.length) { return items.map(item=>item.trim()); }
         return value;
+    }
+    #parseFilter(value) {
+
     }
 }
