@@ -65,11 +65,6 @@ export default class TableState {
         if (0 < items.length) { return items.map(item=>item.trim()); }
         return value;
     }
-    /*
-    #parseFilter(source, i) {
-
-    }
-    */
     #parseFilterMultiLine(source, i, columns) {
         console.log('parseFilterMultiLine');
         const result = {};
