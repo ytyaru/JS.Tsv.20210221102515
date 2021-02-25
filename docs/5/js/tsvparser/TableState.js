@@ -94,7 +94,17 @@ export default class TableState {
             if ('int' === column.type || 'integer' === column.type || 'float' === column.type || 'bigint' === column.type || 'num' === column.type  || 'number' === column.type || 'date' === column.type) {
                 const first = value.slice(0, delimiterIndex);
                 const second = value.slice(delimiterIndex+DELIMITER.length);
-                console.log(first, second)
+                console.log('first:', first, 'second:', second)
+                console.log((0 < delimiterIndex), !value.endsWith('..'))
+                if (0 < delimiterIndex) {
+                    result.min = TypeFormat.toType(first);
+                    console.log(result)
+                }
+                if (!value.endsWith('..')) {
+                    result.max = TypeFormat.toType(second);
+                    console.log(result)
+                }
+                /*
                 if (('integer' === TypeFormat.typeof(first) && 'integer' === TypeFormat.typeof(second))
                  || ('float' === TypeFormat.typeof(first) && 'float' === TypeFormat.typeof(second))
                  || ('number' === TypeFormat.typeof(first) && 'number' === TypeFormat.typeof(second))
@@ -112,6 +122,7 @@ export default class TableState {
                         console.log(result)
                     }
                 } else { result.in = [value]; }
+                */
             } else {
                 result.in = [value]
             }
