@@ -41,7 +41,7 @@ export default class TableState {
             if ('blank' === key) { this.Blank = value; }
             else if ('sort' === key) { this.Sort = value; }
             else if ('tz' === key || 'timezone' === key.toLowerCase()) { this.TimeZone = value; }
-            else if ('show' === key) { this.Show = value; }
+            else if ('show' === key) { console.log('shoooooooow', value); this.Show = value; }
             else if ('pagination' === key) { this.Pagination = parseInt(value); }
             else if ('autopager' === key.toLowerCase()) { this.AutoPager = parseInt(value); }
             else if ('aggregate' === key) { this.Aggregate = value; }
