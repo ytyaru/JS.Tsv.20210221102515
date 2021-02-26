@@ -35,15 +35,17 @@ export default class DataTable { // TableStateに沿ってTsvTableを変更し�
         for (const row of source.rows) {
             const newRow = []
             for (const [key, value] of columns.entries()) {
-                console.log(key, value, row)
-//                console.log(key, value, row, source.columns.filter((i,col)=>col.key===key)[0])
-                if (row.key !== key) { continue; }
-//                newRow.push(value)
-                newRow.push(row[key])
+                const c = this.#getColumnIndex(source, key)
+                newRow.push(row[c])
             }
             rows.push(newRow);
         }
         console.log(rows);
         return rows;
+    }
+    static #getColumnIndex(source, key) {
+        for (const [i, col] of source.columns.entries()) {
+            if (col.key === key) { return i; }
+        }
     }
 }
