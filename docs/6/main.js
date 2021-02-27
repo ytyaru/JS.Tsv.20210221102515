@@ -24,7 +24,19 @@ window.addEventListener('load', async(event) => {
         {"id":6,"group":2,"name":"takada"}
     ]
     console.log(data)
-    console.log(data.sort((a, b) => Sorter.defaultSort(a, b, 'name')))
+    console.log(data.sort((a, b) => Sorter.defaultSortObject(a, b, 'name')))
     console.log(data)
     console.log(Sorter.sort(data, ['group','id']))
+    const data2 = []
+    const row1 = new Map()
+    row1.set('id', 1)
+    row1.set('group', 1)
+    row1.set('name', 'tom')
+    data2.push(row1)
+    const row2 = new Map()
+    row2.set('id', 2)
+    row2.set('group', 1)
+    row2.set('name', 'tim')
+    data2.push(row2)
+    console.log(Sorter.sort(data2, ['group','id']))
 });
