@@ -60,6 +60,19 @@ window.addEventListener('load', async(event) => {
     data2.push(row6)
     console.log(Sorter.sort(data2, ['group','id']))
 
+    // ソート引数
+    // 1. 文字列                    ひとつのキーを昇順で
+    // 2. 文字列の配列              指定した複数のキーを順に昇順で
+    // 3. 文字列の配列, 方向の配列  指定した複数のキーを順に、指定した昇順・降順・デフォ順で
+    // 4. キー名＋方向のMap         指定した複数のキーを順に、指定した昇順・降順・デフォ順で
+    console.log(Sorter.sort(data2, 'group'))
+    console.log(Sorter.sort(data2, ['group','id'], directions=[-1, 1]))
+    const sortOrder = new Map();
+    sortOrder.set('group', -1)
+    sortOrder.set('id', 1)
+    console.log(Sorter.sort(data2, sortOrder))
+    const sortOrder = new Map();
+
     const data3 = [
         [1,1,"tom"],
         [2,1,"tim"],
