@@ -59,4 +59,15 @@ window.addEventListener('load', async(event) => {
     row6.set('name', 'takada')
     data2.push(row6)
     console.log(Sorter.sort(data2, ['group','id']))
+
+    const data3 = [
+        [1,1,"tom"],
+        [2,1,"tim"],
+        [3,3,"tomas"],
+        [4,3,"tanaka"],
+        [5,2,"takahashi"],
+        [6,2,"takada"]
+    ]
+    console.log(Sorter.sort(data3, [2,0]))
+
 });
