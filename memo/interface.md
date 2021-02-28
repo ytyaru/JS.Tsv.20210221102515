@@ -29,11 +29,14 @@ table.Data
     table.Data.state
 
 table.RowType = Array/Object/Map
+table.Source // データソースを返す。指定したRowTypeで。指定したShow,OrderBy,Where通りに。読取専用
+table.clear() // すべてのShow,OrderBy,Where
+
+table.Show = ['id', 'name'] // 表示する列の項目と順序
 
 table.OrderBy.clear()
 table.OrderBy.set('id', 1)
 table.OrderBy.set('name', -1)
-table.OrderBy.clear()
 table.sort()
 
 table.Where.clear()
