@@ -12,7 +12,13 @@ window.addEventListener('load', async(event) => {
         console.log(TsvString.parse(tsv));
         console.log(TsvString.parse(tsv, 'object'));
         console.log(TsvString.parse(tsv, 'map'));
-        console.log(DataTable.get(TsvString.parse(tsv)));
+//        console.log(DataTable.get(TsvString.parse(tsv)));
+        const table = new DataTable(TsvString.parse(tsv))
+        console.log(table);
+        console.log(table.Show);
+        console.log(table.Sort);
+        console.log(table.Filter);
+        console.log(TsvString.parse(tsv));
     }
 
     const data = [

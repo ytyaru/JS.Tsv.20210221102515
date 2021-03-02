@@ -1,15 +1,16 @@
 import DateFormat from '../typeformat/DateFormat.js';
 import TableState from './TableState.js';
 export default class DataTable { // TableStateに沿ってTsvTableを変更して新たなテーブルデータを返す。
-    static get(source) { // source:{columns:, rows:, state:}
+    #source
+    get Source() { return this.#source; }
+    constructor(source) { // source:{columns:, rows:, state:}
         console.log(source)
-        const result = {}
-        result.columns = this.#createColumns(source);
-        console.log(result.columns)
-        result.rows = this.#createRows(source, result.columns)
-        return result;
+        this.#source = {}
+        this.#source.columns = this.#createColumns(source);
+        this.#source.rows = this.#createRows(source, this.#source.columns)
+//        this.#source.state = Object.create(source.state)
     }
-    static #createColumns(source) {
+    #createColumns(source) {
         const columns = new Map();
         console.log(source)
         console.log('state' in source)
@@ -28,7 +29,7 @@ export default class DataTable { // TableStateに沿ってTsvTableを変更し�
         }
         return source.columns;
     }
-    static #createRows(source, columns) {
+    #createRows(source, columns) {
         if (undefined === columns) { return source.rows; }
         console.log(columns)
         const rows = []
@@ -43,7 +44,7 @@ export default class DataTable { // TableStateに沿ってTsvTableを変更し�
         console.log(rows);
         return rows;
     }
-    static #getColumnIndex(source, key) {
+    #getColumnIndex(source, key) {
         for (const [i, col] of source.columns.entries()) {
             if (col.key === key) { return i; }
         }
