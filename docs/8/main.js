@@ -12,13 +12,28 @@ window.addEventListener('load', async(event) => {
         console.log(TsvString.parse(tsv));
         console.log(TsvString.parse(tsv, 'object'));
         console.log(TsvString.parse(tsv, 'map'));
-//        console.log(DataTable.get(TsvString.parse(tsv)));
-//        const table = new DataTable(TsvString.parse(tsv))
         const table = new DataTable(tsv)
         console.log(table);
+        console.log(table.State.Columns);
+        console.log(table.State.Rows);
+        console.log(table.State.State);
         console.log(table.State.Show);
         console.log(table.State.Sort);
         console.log(table.State.Filter);
+        if (table.State) {
+            table.Show = ['id', 'age', 'name'];
+            table.OrderBy.clear();
+            table.OrderBy.set('id', 1);
+            table.OrderBy.set('age', -1);
+            table.Where.clear();
+            table.Where.set('id', v=>v>3);
+            table.Where.set('age', v=>v<50);
+            table.sort();
+            table.filter();
+            console.log(table.Columns)
+            console.log(table.Rows)
+            console.log(table.State)
+        }
     }
 
     const data = [
