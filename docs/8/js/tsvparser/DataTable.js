@@ -61,6 +61,7 @@ export default class DataTable { // TableStateに沿ってTsvTableを変更し�
         for (const [i, col] of source.columns.entries()) {
             if (col.key === key) { return i; }
         }
+        //Sorter.sort(source.rows, keys, keyIndexies);
     }
     sort() {
         for (const [key, value] of this.#orderBy.entries()) {
