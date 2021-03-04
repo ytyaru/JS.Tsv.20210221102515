@@ -72,5 +72,6 @@ export default class DataTable { // TableStateに沿ってTsvTableを変更し�
         for (const [key, value] of this.#where.entries()) {
             console.log(key, value)
         }
+        // filter(where)
     }
 }
