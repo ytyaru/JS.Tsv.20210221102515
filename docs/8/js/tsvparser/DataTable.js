@@ -69,9 +69,12 @@ export default class DataTable { // TableStateに沿ってTsvTableを変更し�
         }
     }
     filter() {
-        for (const [key, value] of this.#where.entries()) {
-            console.log(key, value)
+        const result = []
+        for (const [key, where] of this.#where.entries()) {
+            console.log(this.#source, key, where)
+            const c = this.#getColumnIndex(this.#source, key)
+            result.concat(this.#source.rows.filter(row=>where(row[c])))
         }
-        // filter(where=>where())
+        return result
     }
 }
